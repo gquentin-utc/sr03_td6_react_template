@@ -1,5 +1,6 @@
 import {useState} from "react";
 import {Link, useNavigate} from "react-router-dom";
+import axios from "axios";
 
 const Login = (props) => {
     const [mail, setMail] = useState('')
@@ -7,10 +8,25 @@ const Login = (props) => {
 
     const handleLogin = (event) => {
         event.preventDefault();
+
         console.log("mail = " + mail)
         console.log("password = " + password)
-        //TODO Requete http login au backend spring
-        // axios.post...
+
+        // Requete HTTP login au backend spring
+        axios.post("http://localhost:8080/api/secure/test/login", {mail: mail, password: password})
+            .then(res => {
+                // Login simple
+                console.log("userId = " + res.data.id)
+                sessionStorage.setItem("userId", res.data.id)
+                // Token JWT
+                if (res.headers.authorization){
+                    console.log("token = " + res.headers.authorization)
+                    sessionStorage.setItem("token", res.headers.authorization)
+                }
+            })
+            .catch(err => {
+                console.log(err)
+            })
     }
 
     return (
