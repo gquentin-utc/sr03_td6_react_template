@@ -13,7 +13,7 @@ const Login = (props) => {
         console.log("password = " + password)
 
         // Requete HTTP login au backend spring
-        axios.post("http://localhost:8080/api/secure/test/login", {mail: mail, password: password})
+        axios.post("http://localhost:8080/api/users/login/jwt", {mail: mail, password: password})
             .then(res => {
                 // Login simple
                 console.log("userId = " + res.data.id)
@@ -25,7 +25,7 @@ const Login = (props) => {
                 }
             })
             .catch(err => {
-                console.log(err)
+                console.log(err.response)
             })
     }
 
